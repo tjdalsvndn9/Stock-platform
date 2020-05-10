@@ -11,7 +11,7 @@ const OUTPUT_FILENAME = "assets/js/[name].[contentHash].bundle.js";
 const OUTPUT = "build"
 const PRODUCTION = "production"
 const DEVELOPMENT = "development"
-const PORT = 300
+const PORT = 3000
 
 module.exports = (_env, argv) => {
 
