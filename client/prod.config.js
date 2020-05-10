@@ -4,7 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const TerserWebpackPlugin = require("terser-webpack-plugin");
 const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-
+const RemovePlugin = require('remove-files-webpack-plugin');
 
 const ENTRY = "./src/index.js";
 const OUTPUT_FILENAME = "assets/js/[name].[contentHash].bundle.js";
@@ -121,6 +121,13 @@ module.exports = (_env, argv) => {
             extensions: [".js", ".jsx"]
         },
         plugins: [
+            new RemovePlugin({
+                before: {
+                    include: [
+                        './build'
+                    ]
+                }
+            }),
             //html plugin
             new HtmlWebPackPlugin({
                 template: path.resolve(__dirname, "public/index.html"),
@@ -167,7 +174,8 @@ module.exports = (_env, argv) => {
                                 /[\\/]node_modules[\\/](.*?)([\\/]|$)/
                             )[1];
                             return `${cacheGroupKey}.${packageName.replace("@", "")}`;
-                        }
+                        },
+                        enforce: true
                     },
                     common:{
                         minChunks:2,
