@@ -138,6 +138,23 @@ module.exports = (_env, argv) => {
                     isProduction ? "production" : "development"
                 )
             })
-        ]
+        ],
+        optimization: {
+            minimize:isProduction,
+            minimizer:[
+                new TerserWebpackPlugin({
+                    terserOptions:{
+                        compress:{
+                            comparisons: false
+                        },
+                        output:{
+                            comments: false
+                        },
+                        warnings:false
+                    }
+                }),
+                new OptimizeCssAssetsPlugin()
+            ]
+        }
     }
 }
