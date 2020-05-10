@@ -4,7 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const TerserWebpackPlugin = require("terser-webpack-plugin");
 const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-const postcssPresetEnv = require('postcss-preset-env');
+
 
 const ENTRY = "./src/index.js";
 const VENDOR = "./src/vendor.js"
@@ -34,13 +34,20 @@ module.exports = (_env, argv) => {
             rules: [
                 {
                     test: /\.css$/i,
+                    include: /src/, 
                     use:[
-                        isProduction ? MiniCssExtractPlugin.loader : "style-loader",
+                        {
+                            loader:MiniCssExtractPlugin.loader ,
+                            options:{
+                                publicPath:"../"
+                            }
+                        },
                         "css-loader"
                     ]
                 },
                 {
                     test: /\.s[ac]ss$/i,
+                    include: /src/, 
                     loader: 'sass-loader',
                     options: {
                         implementation: require('sass')
